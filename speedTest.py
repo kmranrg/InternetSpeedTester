@@ -41,12 +41,18 @@ def main(page: ft.Page):
     line_01 = ft.Text(value="> press start...", font_family="SourceCodePro-BlackItalic", color="#ffffff")
     line_02 = ft.Text(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
     line_03 = ft.Text(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
+    progress_bar_01 = ft.ProgressBar(width=400, color="#0080ff", bgcolor="#eeeeee", opacity=0)
+    progress_text_01 = ft.Text(" ", font_family="SourceCodePro-BlackItalic", color="#1aff1a", opacity=0)
+    progress_row_01 = ft.Row([progress_text_01,progress_bar_01])
     line_04 = ft.Text(value="", font_family="SourceCodePro-Bold", color="#ffff00")
     line_05 = ft.Text(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
     line_06 = ft.Text(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
+    progress_bar_02 = ft.ProgressBar(width=400, color="#0080ff", bgcolor="#eeeeee", opacity=0)
+    progress_text_02 = ft.Text(" ", font_family="SourceCodePro-BlackItalic", color="#1aff1a", opacity=0)
+    progress_row_02 = ft.Row([progress_text_02,progress_bar_02])
     line_07 = ft.Text(value="", font_family="SourceCodePro-BlackItalic", color="#ffff00")
     line_08 = ft.Text(value="", font_family="SourceCodePro-Bold", color="#ffffff")
-    terminalText = ft.Column([line_01, line_02, line_03, line_04, line_05, line_06, line_07, line_08])
+    terminalText = ft.Column([line_01, line_02, line_03, progress_row_01, line_04, line_05, line_06, progress_row_02, line_07, line_08])
 
     # terminal container
     getSpeedContainer = ft.Container(
@@ -61,6 +67,12 @@ def main(page: ft.Page):
 
     # terminal animation
     def animate_getSpeedContainer(e):
+        progress_row_01.opacity = 0
+        progress_bar_01.opacity = 0
+        progress_bar_01.value = None
+        progress_row_02.opacity = 0
+        progress_bar_02.opacity = 0
+        progress_bar_02.value = None
         line_01.value = ""
         line_02.value = ""
         line_03.value = ""
@@ -83,16 +95,22 @@ def main(page: ft.Page):
         getSpeedContainer.update()
         sleep(2)
         line_03.value = "> connection established, status OK, fetching download speed"
+        progress_row_01.opacity = 1
+        progress_bar_01.opacity = 1
         getSpeedContainer.update()
         download_speed = st.download()/1024/1024 # bytes/sec to Mbps
+        progress_bar_01.value = 1
         line_04.value = f"> the download speed is {str(round(download_speed,2))} Mbps"
         getSpeedContainer.update()
         line_05.value = "> calculating upload speed, please wait..."
         getSpeedContainer.update()
         sleep(1)
         line_06.value = "> executing upload script, hold on"
+        progress_row_02.opacity = 1
+        progress_bar_02.opacity = 1
         getSpeedContainer.update()
         upload_speed = st.upload()/1024/1024 # bytes/sec to Mbps
+        progress_bar_02.value = 1
         line_07.value = f"> the upload speed is {str(round(upload_speed,2))} Mbps"
         getSpeedContainer.update()
         sleep(1)
