@@ -82,8 +82,8 @@ def main(page: ft.Page):
         line_07.value = ""
         line_08.value = ""
         getSpeedContainer.update()
-        getSpeedContainer.width = 700 if getSpeedContainer.width == 200 else 700
-        getSpeedContainer.height = 400 if getSpeedContainer.height == 100 else 400
+        getSpeedContainer.width = 700
+        getSpeedContainer.height = 400
         line_01.value = "> calculating download speed, please wait..."
         getSpeedContainer.update()
         sleep(1)
