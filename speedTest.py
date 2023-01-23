@@ -1,7 +1,9 @@
+# importing the libraries
 import flet as ft
 import speedtest
 from time import sleep
 
+# defining the main function
 def main(page: ft.Page):
 
     # setting up the page
@@ -26,6 +28,7 @@ def main(page: ft.Page):
     # initializing the speedtest variable
     st = speedtest.Speedtest()
 
+    # making the heading of the app
     appTitle = ft.Row(
         controls = [
             ft.Text("Internet", font_family="RoosterPersonalUse", style="displayLarge", color="#ff3300"),
@@ -34,6 +37,7 @@ def main(page: ft.Page):
         alignment="center"
     )
 
+    # defining terminal lines for printing text
     line_01 = ft.Text(value="> press start...", font_family="SourceCodePro-BlackItalic", color="#ffffff")
     line_02 = ft.Text(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
     line_03 = ft.Text(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
@@ -44,6 +48,7 @@ def main(page: ft.Page):
     line_08 = ft.Text(value="", font_family="SourceCodePro-Bold", color="#ffffff")
     terminalText = ft.Column([line_01, line_02, line_03, line_04, line_05, line_06, line_07, line_08])
 
+    # terminal container
     getSpeedContainer = ft.Container(
         content = terminalText,
         width=200,
@@ -54,6 +59,7 @@ def main(page: ft.Page):
         animate=ft.animation.Animation(1000, "bounceOut"),
     )
 
+    # terminal animation
     def animate_getSpeedContainer(e):
         line_01.value = ""
         line_02.value = ""
@@ -69,10 +75,10 @@ def main(page: ft.Page):
         line_01.value = "> calculating download speed, please wait..."
         getSpeedContainer.update()
         sleep(1)
-        ideal_server = st.get_best_server()
-        city = ideal_server["name"]
-        country = ideal_server["country"]
-        cc = ideal_server["cc"]
+        ideal_server = st.get_best_server() # this will find out and connect to the best possible server
+        city = ideal_server["name"] # for getting the city name
+        country = ideal_server["country"] # for getting the country name
+        cc = ideal_server["cc"] # for getting the country code
         line_02.value = f"> finding the best possible servers in {city}, {country} ({cc})"
         getSpeedContainer.update()
         sleep(2)
@@ -93,10 +99,12 @@ def main(page: ft.Page):
         line_08.value = f"> task completed successfully\n\n>> app developer: kumar anurag (instagram: kmranrg)"
         getSpeedContainer.update()
 
+    # page components
     page.add(
         appTitle,
         getSpeedContainer,
         ft.IconButton(icon=ft.icons.PLAY_CIRCLE_FILL_OUTLINED, on_click=animate_getSpeedContainer, icon_color="#1aff1a", icon_size=50),
     )
 
+# executing the main function
 ft.app(target=main, assets_dir="assets")
