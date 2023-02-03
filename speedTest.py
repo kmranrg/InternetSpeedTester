@@ -2,6 +2,7 @@
 import flet as ft
 import speedtest
 from time import sleep
+from TypeWriterEffectControl import TypeWriterControl
 
 # defining the main function
 def main(page: ft.Page):
@@ -38,20 +39,20 @@ def main(page: ft.Page):
     )
 
     # defining terminal lines for printing text
-    line_01 = ft.Text(value="> press start...", font_family="SourceCodePro-BlackItalic", color="#ffffff")
-    line_02 = ft.Text(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
-    line_03 = ft.Text(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
+    line_01 = TypeWriterControl(value="> press start...", font_family="SourceCodePro-BlackItalic", color="#ffffff")
+    line_02 = TypeWriterControl(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
+    line_03 = TypeWriterControl(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
     progress_bar_01 = ft.ProgressBar(width=400, color="#0080ff", bgcolor="#eeeeee", opacity=0)
-    progress_text_01 = ft.Text(" ", font_family="SourceCodePro-BlackItalic", color="#1aff1a", opacity=0)
+    progress_text_01 = TypeWriterControl(" ", font_family="SourceCodePro-BlackItalic", color="#1aff1a", transparency=False)
     progress_row_01 = ft.Row([progress_text_01,progress_bar_01])
-    line_04 = ft.Text(value="", font_family="SourceCodePro-Bold", color="#ffff00")
-    line_05 = ft.Text(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
-    line_06 = ft.Text(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
+    line_04 = TypeWriterControl(value="", font_family="SourceCodePro-Bold", color="#ffff00")
+    line_05 = TypeWriterControl(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
+    line_06 = TypeWriterControl(value="", font_family="SourceCodePro-BlackItalic", color="#1aff1a")
     progress_bar_02 = ft.ProgressBar(width=400, color="#0080ff", bgcolor="#eeeeee", opacity=0)
-    progress_text_02 = ft.Text(" ", font_family="SourceCodePro-BlackItalic", color="#1aff1a", opacity=0)
+    progress_text_02 = TypeWriterControl(" ", font_family="SourceCodePro-BlackItalic", color="#1aff1a", transparency=False)
     progress_row_02 = ft.Row([progress_text_02,progress_bar_02])
-    line_07 = ft.Text(value="", font_family="SourceCodePro-BlackItalic", color="#ffff00")
-    line_08 = ft.Text(value="", font_family="SourceCodePro-Bold", color="#ffffff")
+    line_07 = TypeWriterControl(value="", font_family="SourceCodePro-BlackItalic", color="#ffff00")
+    line_08 = TypeWriterControl(value="", font_family="SourceCodePro-Bold", color="#ffffff")
     terminalText = ft.Column([line_01, line_02, line_03, progress_row_01, line_04, line_05, line_06, progress_row_02, line_07, line_08])
 
     # terminal container
@@ -73,48 +74,64 @@ def main(page: ft.Page):
         progress_row_02.opacity = 0
         progress_bar_02.opacity = 0
         progress_bar_02.value = None
-        line_01.value = ""
-        line_02.value = ""
-        line_03.value = ""
-        line_04.value = ""
-        line_05.value = ""
-        line_06.value = ""
-        line_07.value = ""
-        line_08.value = ""
+        line_01.text_to_print = ""
+        line_01.update()
+        line_02.text_to_print = ""
+        line_02.update()
+        line_03.text_to_print = ""
+        line_03.update()
+        line_04.text_to_print = ""
+        line_04.update()
+        line_05.text_to_print = ""
+        line_05.update()
+        line_06.text_to_print = ""
+        line_06.update()
+        line_07.text_to_print = ""
+        line_07.update()
+        line_08.text_to_print = ""
+        line_08.update()
         getSpeedContainer.update()
         getSpeedContainer.width = 700
         getSpeedContainer.height = 400
-        line_01.value = "> calculating download speed, please wait..."
+        line_01.text_to_print = "> calculating download speed, please wait..."
         getSpeedContainer.update()
         sleep(1)
+        line_01.update()
         ideal_server = st.get_best_server() # this will find out and connect to the best possible server
         city = ideal_server["name"] # for getting the city name
         country = ideal_server["country"] # for getting the country name
         cc = ideal_server["cc"] # for getting the country code
-        line_02.value = f"> finding the best possible servers in {city}, {country} ({cc})"
+        line_02.text_to_print = f"> finding the best possible servers in {city}, {country} ({cc})"
+        line_02.update()
         getSpeedContainer.update()
         sleep(2)
-        line_03.value = "> connection established, status OK, fetching download speed"
+        line_03.text_to_print = "> connection established, status OK, fetching download speed"
+        line_03.update()
         progress_row_01.opacity = 1
         progress_bar_01.opacity = 1
         getSpeedContainer.update()
         download_speed = st.download()/1024/1024 # bytes/sec to Mbps
         progress_bar_01.value = 1
-        line_04.value = f"> the download speed is {str(round(download_speed,2))} Mbps"
+        line_04.text_to_print = f"> the download speed is {str(round(download_speed,2))} Mbps"
+        line_04.update()
         getSpeedContainer.update()
-        line_05.value = "> calculating upload speed, please wait..."
+        line_05.text_to_print = "> calculating upload speed, please wait..."
+        line_05.update()
         getSpeedContainer.update()
         sleep(1)
-        line_06.value = "> executing upload script, hold on"
+        line_06.text_to_print = "> executing upload script, hold on"
+        line_06.update()
         progress_row_02.opacity = 1
         progress_bar_02.opacity = 1
         getSpeedContainer.update()
         upload_speed = st.upload()/1024/1024 # bytes/sec to Mbps
         progress_bar_02.value = 1
-        line_07.value = f"> the upload speed is {str(round(upload_speed,2))} Mbps"
+        line_07.text_to_print = f"> the upload speed is {str(round(upload_speed,2))} Mbps"
+        line_07.update()
         getSpeedContainer.update()
         sleep(1)
-        line_08.value = f"> task completed successfully\n\n>> app developer: kumar anurag (instagram: kmranrg)"
+        line_08.text_to_print = f"> task completed successfully\n\n>> app developer: kumar anurag (instagram: kmranrg)"
+        line_08.update()
         getSpeedContainer.update()
 
     # page components
